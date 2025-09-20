@@ -110,8 +110,8 @@ fn list_names_in_archive(fie_name_entries: &[FileNameEntry], legacy_decoder: &dy
 
 fn process_answer_default_yes(ans: &str) -> bool {
     return match ans.chars().next() {
-        Some('n') | Some('N') => false,
-        None | Some(_) => true,
+        Some('y') | Some('Y') => true,
+        None | Some(_) => false,
     };
 }
 
