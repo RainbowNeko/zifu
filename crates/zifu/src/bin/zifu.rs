@@ -115,9 +115,13 @@ fn process_answer_default_no(ans: &str) -> bool {
     };
 }
 
-/// Returns `Ok(false)` if a line starting with `'n'` (or `'N'`) is input from stdin, otherwise `Ok(true)`.
+/// Reads a line from stdin and interprets it as a yes/no answer.
 ///
-/// Returns `Err(std::io::Error)` if I/O fails.
+/// Returns `Ok(true)` if the line starts with `'y'` or `'Y'`.
+/// Returns `Ok(false)` if the line is empty, starts with any other character,
+/// or cannot be interpreted as a yes answer.
+///
+/// Returns `Err(std::io::Error)` if reading from stdin fails.
 fn ask_default_no() -> Result<bool, std::io::Error> {
     let ask_result = (|| {
         let mut ret = String::new();
