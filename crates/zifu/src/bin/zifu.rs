@@ -108,7 +108,7 @@ fn list_names_in_archive(fie_name_entries: &[FileNameEntry], legacy_decoder: &dy
     }
 }
 
-fn process_answer_default_yes(ans: &str) -> bool {
+fn process_answer_default_no(ans: &str) -> bool {
     return match ans.chars().next() {
         Some('y') | Some('Y') => true,
         None | Some(_) => false,
@@ -118,7 +118,7 @@ fn process_answer_default_yes(ans: &str) -> bool {
 /// Returns `Ok(false)` if a line starting with `'n'` (or `'N'`) is input from stdin, otherwise `Ok(true)`.
 ///
 /// Returns `Err(std::io::Error)` if I/O fails.
-fn ask_default_yes() -> Result<bool, std::io::Error> {
+fn ask_default_no() -> Result<bool, std::io::Error> {
     let ask_result = (|| {
         let mut ret = String::new();
         match std::io::stdin().read_line(&mut ret) {
@@ -126,7 +126,7 @@ fn ask_default_yes() -> Result<bool, std::io::Error> {
             Err(e) => return Err(e),
         }
     })()?;
-    return Ok(process_answer_default_yes(&ask_result));
+    return Ok(process_answer_default_no(&ask_result));
 }
 
 #[derive(Parser, Debug)]
@@ -260,7 +260,7 @@ fn main() -> anyhow::Result<()> {
 
         if behavior_flags.ask_user {
             eprint!("Are these file names correct? [Y/n]: ");
-            if !(ask_default_yes()?) {
+            if !(ask_default_no()?) {
                 std::process::exit(1);
             }
         }
