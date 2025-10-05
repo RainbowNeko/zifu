@@ -1,4 +1,5 @@
 use ansi_term::ANSIGenericString;
+use ansi_term::Colour::Red;
 use anyhow::anyhow;
 use clap::Parser;
 use filename_decoder::IDecoder;
@@ -263,7 +264,7 @@ fn main() -> anyhow::Result<()> {
         }
 
         if behavior_flags.ask_user {
-            eprint!("Are these file names correct? [Y/n]: ");
+            eprint!("Are these file names correct? [y/{}]: ", Red.paint("N"));
             if !(ask_default_no()?) {
                 std::process::exit(1);
             }
